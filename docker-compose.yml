@@ -1,0 +1,40 @@
+services:
+  source_postgres:
+    # image: postgres:18.4-trixie
+    image: postgres:17-trixie
+    ports:
+      - "5433:5432"
+    networks:
+      - elt_network
+    environment:
+      - POSTGRES_DB=source_db
+      - POSTGRES_USER=harold
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - ./source_db_init/init.sql:/docker-entrypoint-initdb.d/init.sql
+  
+  destination_postgres:
+    image: postgres:17-trixie
+    ports:
+      - "5432:5432"
+    networks:
+      - elt_network
+    environment:
+      POSTGRES_USER: harold
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: destination_db
+
+  elt_script:
+    build:
+      context: ./elt
+      dockerfile: Dockerfile
+    depends_on:
+      - source_postgres
+      - destination_postgres
+    networks:
+      - elt_network
+    
+
+networks:
+  elt_network:
+    driver: bridge
