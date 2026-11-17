@@ -2,6 +2,19 @@
 
 Este proyecto es un pipeline que se encarga de mover los datos desde una base de datos (`source`) a otra (`destination`). Esto utilizando PostgreSQL, Docker y Python.
 
+## Airflow
+
+Para iniciar el proyecto utilice el siguiente comando:
+
+```bash
+docker compose up
+```
+
+Despues de eso se podra utilizar la aplicacion o interfaz de airflow en el http://localhost:8080/
+
+El usuario y contraseña configurado por defecto son los siguientes:
+- username: `airflow`
+- password: `password`
 
 ## Comandos
 
